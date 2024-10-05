@@ -1,8 +1,10 @@
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +15,10 @@ public class GeisternetzController {
     @PersistenceContext
     private EntityManager em;
 
+ // Methode um ungeborgene Geisternetze abzurufen
+    public List<Geisternetz> getUngeboreneGeisternetze() {
+        return em.createQuery("SELECT g FROM Geisternetz g WHERE g.status IN ('GEMELDET', 'BERGUNG_BEVORSTEHEND')", Geisternetz.class).getResultList();
+       
     // Felder für Formular-Eingaben
     private String gpsKoordinaten;
     private String groesse;
@@ -29,6 +35,12 @@ public class GeisternetzController {
     private List<Geisternetz> geisternetzListe;
     private int index;  // Für die Navigation in der Geisternetz-Liste
 
+    @Inject
+    private GeisternetzService geisternetzService;
+
+    @Inject
+    private PersonService personService;
+
     @PostConstruct
     public void init() {
         // Initialisiere die Status-Liste
@@ -41,16 +53,18 @@ public class GeisternetzController {
         );
 
         // Beispiel-Daten für Geisternetze
-        geisternetzListe = Arrays.asList(
+        geisternetzListe = new ArrayList<>(Arrays.asList(
             new Geisternetz("48.123, 11.456", "Groß", "Gemeldet", null, null, null),
             new Geisternetz("47.789, 10.123", "Mittel", "Bergung bevorstehend", personenListe.get(0), null, null)
-        );
+        ));
 
         // Standardmäßiges Geisternetz initialisieren
         geisternetz = geisternetzListe.get(0);
         index = 0;
     }
 
+    
+    
     // Getter und Setter für die Formularfelder
     public String getGpsKoordinaten() {
         return gpsKoordinaten;
@@ -171,4 +185,20 @@ public class GeisternetzController {
             geisternetz = geisternetzListe.get(index);
         }
     }
+
+	public GeisternetzService getGeisternetzService() {
+		return geisternetzService;
+	}
+
+	public void setGeisternetzService(GeisternetzService geisternetzService) {
+		this.geisternetzService = geisternetzService;
+	}
+
+	public PersonService getPersonService() {
+		return personService;
+	}
+
+	public void setPersonService(PersonService personService) {
+		this.personService = personService;
+	}
 }

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+<link rel="stylesheet" type="text/css" media="screen" href="styles.css"/>
+
+  <title>Geisternetze - Erfassen</title>
+</h:head>
+<h:body>
+  <p><img id="kopf_links" src="Logo.jpeg" width="150" alt="Logo"/></p>
+  <p id="kopf_rechts">
+    <h:outputText value="#{adresse.name}"/><br/>
+    <h:outputText value="#{adresse.strasse} #{adresse.hausnummer}"/><br/>
+    <h:outputText value="#{adresse.plz} #{adresse.ort}"></h:outputText>
+  </p>
+
+  <h1>Geisternetze - Meldung und Bergung!</h1>
+  <h2>Geisternetz Zuordnen</h2>
+<h:form>
+    <h:outputLabel value="Name:" />
+    <h:inputText value="#{personBean.name}" />
+
+    <h:outputLabel value="Telefonnummer:" />
+    <h:inputText value="#{personBean.telefonnummer}" />
+
+    <h:outputLabel value="Geisternetz-ID (zum Bergen):" />
+    <h:inputText value="#{geisternetzBean.id}" />
+
+    <h:commandButton value="Bergen" action="#{geisternetzBean.zuordnen}" />
+</h:form>
+
+  <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf für die Geisternetzverwaltung!</p>
+</h:body>
+</html>

@@ -4,95 +4,93 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-<link rel="stylesheet" type="text/css" media="screen" href="styles.css"/>
-
-  <title>Geisternetze - Startseite</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="styles.css"/>
+    <title>Geisternetze - Startseite</title>
 </h:head>
 <h:body>
-  <p><img id="kopf_links" src="Logo.jpeg" width="150" alt="Logo"/></p>
-  <p id="kopf_rechts">
-    <h:outputText value="#{adresse.name}"/><br/>
-    <h:outputText value="#{adresse.strasse} #{adresse.hausnummer}"/><br/>
-    <h:outputText value="#{adresse.plz} #{adresse.ort}"></h:outputText>
-  </p>
+    <p><img id="kopf_links" src="Logo.jpeg" width="150" alt="Logo"/></p>
+    <p id="kopf_rechts">
+        <h:outputText value="#{adresse.name}"/><br/>
+        <h:outputText value="#{adresse.strasse} #{adresse.hausnummer}"/><br/>
+        <h:outputText value="#{adresse.plz} #{adresse.ort}"/>
+    </p>
 
-  <h1>Geisternetze - Meldung und Bergung!</h1>
-  <h2>Geisternetz erfassen</h2>
+    <h1>Geisternetze - Meldung und Bergung!</h1>
+    <h2>Geisternetz erfassen</h2>
 
+    <!-- Formular zum Erfassen von Geisternetzen -->
+    <h:form>
+        <h:panelGrid columns="2">
+            <!-- Navigation Vor/Zurück -->
+            <h:commandLink value="zurück" action="#{geisternetzController.zurueck()}" rendered="#{geisternetzController.index > 0}"/>
+            <h:outputText rendered="#{geisternetzController.index == 0}" value=" "/>
+            <h:commandLink value="vor" action="#{geisternetzController.vor()}"/>
 
-  <!-- Formular zum Erfassen von Geisternetzen -->
-  <h:form>
-    <h:panelGrid columns="2">
-      <!-- Navigation Vor/Zurück -->
-      <h:commandLink value="zurück" action="#{geisternetzController.zurueck()}" rendered="#{geisternetzController.index > 0}"/>
-      <h:outputText rendered="#{geisternetzController.index == 0}" value=" "/>
-      <h:commandLink value="vor" action="#{geisternetzController.vor()}"/>
+            <!-- Geisternetz-Daten -->
+            <h:outputLabel value="Nr:" for="nr"/>
+            <h:outputText id="nr" value="#{geisternetzController.geisternetz.id}"/>
 
-      <!-- Geisternetz-Daten -->
-      <h:outputLabel value="Nr:" for="nr"/>
-      <h:outputText id="nr" value="#{geisternetzController.geisternetz.id}"/>
+            <h:outputLabel value="GPS-Koordinaten:" for="gpsKoordinaten"/>
+            <h:inputText id="gpsKoordinaten" value="#{geisternetzController.geisternetz.gpsKoordinaten}" size="40"/>
 
-      <h:outputLabel value="GPS-Koordinaten:" for="gpsKoordinaten"/>
-      <h:inputText id="gpsKoordinaten" value="#{geisternetzController.geisternetz.gpsKoordinaten}" size="40"/>
+            <h:outputLabel value="Größe:" for="groesse"/>
+            <h:inputText id="groesse" value="#{geisternetzController.geisternetz.groesse}" size="40"/>
 
-      <h:outputLabel value="Größe:" for="groesse"/>
-      <h:inputText id="groesse" value="#{geisternetzController.geisternetz.groesse}" size="40"/>
+            <!-- Status Auswahl -->
+            <h:outputLabel value="Status:" for="status"/>
+            <p:selectOneMenu id="status" value="#{geisternetzController.geisternetz.status}">
+                <f:selectItems value="#{geisternetzController.statusListe}" var="status" itemLabel="#{status}" itemValue="#{status}"/>
+                <p:ajax event="change" update="statusAnzeige"/>
+            </p:selectOneMenu>
 
-      <!-- Status Auswahl -->
-      <h:outputLabel value="Status:" for="status"/>
-      <p:selectOneMenu id="status" value="#{geisternetzController.geisternetz.status}">
-        <f:selectItems value="#{geisternetzController.statusListe}" var="status" itemLabel="#{status}" itemValue="#{status}"/>
-        <p:ajax event="change" update="statusAnzeige"/>
-      </p:selectOneMenu>
+            <!-- Meldende Person -->
+            <h:outputLabel value="Meldende Person:" for="meldendePerson"/>
+            <p:selectOneMenu id="meldendePerson" value="#{geisternetzController.geisternetz.meldendePerson}">
+                <f:selectItems value="#{geisternetzController.personenListe}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
+                <p:ajax event="change" update="meldendePerson"/>
+            </p:selectOneMenu>
 
-      <!-- Meldende Person -->
-      <h:outputLabel value="Meldende Person:" for="meldendePerson"/>
-      <p:selectOneMenu id="meldendePerson" value="#{geisternetzController.geisternetz.meldendePerson}">
-        <f:selectItems value="#{geisternetzController.personenListe}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
-        <p:ajax event="change" update="meldendePerson"/>
-      </p:selectOneMenu>
+            <!-- Bergende Person -->
+            <h:outputLabel value="Bergende Person:" for="bergendePerson"/>
+            <p:selectOneMenu id="bergendePerson" value="#{geisternetzController.geisternetz.bergendePerson}">
+                <f:selectItems value="#{geisternetzController.personenListe}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
+                <p:ajax event="change" update="bergendePerson"/>
+            </p:selectOneMenu>
 
-      <!-- Bergende Person -->
-      <h:outputLabel value="Bergende Person:" for="bergendePerson"/>
-      <p:selectOneMenu id="bergendePerson" value="#{geisternetzController.geisternetz.bergendePerson}">
-        <f:selectItems value="#{geisternetzController.personenListe}" var="person" itemLabel="#{person.name}" itemValue="#{person}"/>
-        <p:ajax event="change" update="bergendePerson"/>
-      </p:selectOneMenu>
+            <!-- Bild anzeigen -->
+            <h:outputLabel value="Bild:" for="bild"/>
+            <h:graphicImage id="bild" url="#{geisternetzController.geisternetz.bild}" width="250"/>
+        </h:panelGrid>
+    </h:form>
 
-      <!-- Bild anzeigen -->
-      <h:outputLabel value="Bild:" for="bild"/>
-      <h:graphicImage id="bild" url="#{geisternetzController.geisternetz.bild}" width="250"/>
-    </h:panelGrid>
-  </h:form>
+    <!-- Tabelle der Geisternetze -->
+    <h:dataTable var="netz" value="#{geisternetzController.geisternetzListe}">
+        <h:column>
+            <f:facet name="header">GPS-Koordinaten</f:facet>
+            <h:outputText value="#{netz.gpsKoordinaten}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Größe</f:facet>
+            <h:outputText value="#{netz.groesse}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Status</f:facet>
+            <h:outputText value="#{netz.status}"/>
+        </h:column>
+        <!-- Weitere Spalten und Aktionen können hier hinzugefügt werden -->
+    </h:dataTable>
 
-  <!-- Tabelle der Geisternetze -->
-  <h:dataTable var="netz" value="#{geisternetzController.geisternetzListe}">
-    <h:column>
-      <f:facet name="header">GPS-Koordinaten</f:facet>
-    <h:outputText value="#{geisternetz.gpsKoordinaten}"/>
-    </h:column>
-    <h:column>
-      <f:facet name="header">Größe</f:facet>
-    <h:outputText value="#{geisternetz.groesse}"/>
-    </h:column>
-    <h:column>
-      <f:facet name="header">Status</f:facet>
-      <h:outputText value="#{geisternetz.status}"/>
-    </h:column>
-    <!-- Weitere Spalten und Aktionen können hier hinzugefügt werden -->
-  </h:dataTable>
+    <!-- Links für andere Aktionen -->
+    <h:form>
+        <h:outputLabel value="Melden Sie ein Geisternetz:"/>
+        <h:commandLink value="Jetzt melden" action="meldung.xhtml"/>
+    </h:form>
 
-  <!-- Links für andere Aktionen -->
-  <h:form>
-    <h:outputLabel value="Melden Sie ein Geisternetz:"/>
-    <h:commandLink value="Jetzt melden" action="meldung.xhtml"/>
-  </h:form>
+    <h:form>
+        <h:outputLabel value="Anzeigen ungeborgener Geisternetze:"/>
+        <h:commandLink value="Ungeborgene Geisternetze" action="ungeborgeneGeisternetze.xhtml"/>
+    </h:form>
 
-  <h:form>
-    <h:outputLabel value="Anzeigen, welche Netze noch zu bergen sind:"/>
-    <h:commandLink value="Noch zu bergen" action="zuBergen.xhtml"/>
-  </h:form>
-
-  <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf für die Geisternetzverwaltung!</p>
+    <p id="fussnote">Bitte beachten Sie: <br/> Diese Seite ist nur ein Entwurf für die Geisternetzverwaltung!</p>
 </h:body>
 </html>

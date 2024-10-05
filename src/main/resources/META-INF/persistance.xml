@@ -2,14 +2,15 @@
     <persistence-unit name="geisternetze">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>Geisternetz</class>
-        <class>sheasepherd.Person</class>
+        <class>Person</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ghostnetdb"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="password"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            
         </properties>
     </persistence-unit>
 </persistence>

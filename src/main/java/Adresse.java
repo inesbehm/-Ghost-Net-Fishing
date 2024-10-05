@@ -5,19 +5,15 @@ import javax.inject.Named;
 @RequestScoped
 public class Adresse {
 
-    private String name;
-    private String strasse;
-    private String hausnummer;
-    private String plz;
-    private String ort;
+	private String name = "Mein Name";
+    private String strasse = "Hauptstraße";
+    private String hausnummer = "1";
+    private String plz = "12345";
+    private String ort = "Musterstadt";
 
     // Konstruktor
     public Adresse() {
-        this.name = "Shea Sepherd";
-        this.strasse = "Panoramastraße";
-        this.hausnummer = "1";
-        this.plz = "12345";
-        this.ort = "Berlin";
+       
     }
 
     // Getter und Setter
